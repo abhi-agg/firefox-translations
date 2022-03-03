@@ -1,7 +1,7 @@
 name: Publish Nightly
 on:
   schedule:
-    - cron: '42 15 * * *' # Daily at 15:42 PM UTC
+    - cron: '48 18 * * *' # Daily at 15:42 PM UTC
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -19,7 +19,7 @@ jobs:
         run: npm run build
       - name: Retrieve old Nightly id
         run: |
-          TAG_ID=`curl -s -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/mozilla/firefox-translations/releases/tags/nightly | python3 -c "import sys, json; print(json.load(sys.stdin)['id'])"`
+          TAG_ID=`curl -s -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/abhi-agg/firefox-translations/releases/tags/nightly | python3 -c "import sys, json; print(json.load(sys.stdin)['id'])"`
           echo $TAG_ID
           echo "TAG_ID=$TAG_ID" >> $GITHUB_ENV
         continue-on-error: true
@@ -27,8 +27,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          `curl -X DELETE -H "Authorization: token ${{ env.GITHUB_TOKEN }}" -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/mozilla/firefox-translations/git/refs/tags/nightly`
-          `curl -X DELETE -H "Authorization: token ${{ env.GITHUB_TOKEN }}" -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/mozilla/firefox-translations/releases/${{ env.TAG_ID }}`
+          `curl -X DELETE -H "Authorization: token ${{ env.GITHUB_TOKEN }}" -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/abhi-agg/firefox-translations/git/refs/tags/nightly`
+          `curl -X DELETE -H "Authorization: token ${{ env.GITHUB_TOKEN }}" -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/abhi-agg/firefox-translations/releases/${{ env.TAG_ID }}`
         continue-on-error: true
       - name: Create Nightly Release
         id: create_release
