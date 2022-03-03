@@ -1,7 +1,7 @@
 name: Publish Nightly
 on:
   schedule:
-    - cron: '20 12 * * *' # Daily at 12:20 PM UTC
+    - cron: '10 16 * * *' # Daily at 16:10 PM UTC
 jobs:
   build:
     runs-on: ubuntu-latest
