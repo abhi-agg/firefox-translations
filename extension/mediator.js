@@ -22,7 +22,11 @@ class Mediator {
         if ((window.location.href ===
             "https://example.com/browser/browser/extensions/translations/test/browser/browser_translation_test.html") ||
             (window.location.href ===
-            "https://example.com/browser/browser/extensions/translations/test/browser/frame.html")) {
+            "https://example.com/browser/browser/extensions/translations/test/browser/frame.html") ||
+            (window.location.href ===
+            "https://example.com/browser/browser/extensions/translations/test/browser/browser_translation_qe_test.html") ||
+            (window.location.href ===
+            "https://example.com/browser/browser/extensions/translations/test/browser/frame_qe.html")) {
             this.isMochitest = true;
         }
     }

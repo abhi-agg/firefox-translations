@@ -11,11 +11,11 @@ if not os.path.exists("scripts/tests/e2e-tests.py"):
 root = os.getcwd()
 
 # Remove old gecko
-subprocess.call("rm -rf gecko".split(), cwd=root)
+#subprocess.call("rm -rf gecko".split(), cwd=root)
 # First we build the extension
 subprocess.call("npm run build-test".split(), cwd=root)
 # then we clone gecko
-subprocess.call("git clone hg::https://hg.mozilla.org/mozilla-central gecko".split(), cwd=root)
+#subprocess.call("git clone hg::https://hg.mozilla.org/mozilla-central gecko".split(), cwd=root)
 # We then remove the old extension
 subprocess.call("mkdir -p gecko/browser/extensions/translations/extension".split(), cwd=root)
 # and extract the newly one built there
@@ -26,9 +26,13 @@ subprocess.call("cp scripts/tests/browser.ini gecko/browser/extensions/translati
 subprocess.call("cp scripts/tests/browser_translation_test.html gecko/browser/extensions/translations/test/browser/".split(), cwd=root)
 subprocess.call("cp scripts/tests/frame.html gecko/browser/extensions/translations/test/browser/".split(), cwd=root)
 subprocess.call("cp scripts/tests/browser_translation_test.js gecko/browser/extensions/translations/test/browser/".split(), cwd=root)
+subprocess.call("cp scripts/tests/browser_translation_qe_test.html gecko/browser/extensions/translations/test/browser/".split(), cwd=root)
+subprocess.call("cp scripts/tests/frame_qe.html gecko/browser/extensions/translations/test/browser/".split(), cwd=root)
+subprocess.call("cp scripts/tests/browser_translation_qe_test.js gecko/browser/extensions/translations/test/browser/".split(), cwd=root)
 subprocess.call("cp -r scripts/tests/esen/ gecko/browser/extensions/translations/test/browser/esen/".split(), cwd=root)
 subprocess.call("cp -r scripts/tests/enes/ gecko/browser/extensions/translations/test/browser/enes/".split(), cwd=root)
 subprocess.call("cp scripts/tests/jar.mn gecko/browser/extensions/translations/".split(), cwd=root)
+"""
 with open('gecko/browser/extensions/moz.build', 'a') as fp:
     fp.write('if CONFIG["NIGHTLY_BUILD"]: \n')
     fp.write('  DIRS += [ \n')
@@ -83,11 +87,12 @@ with open('gecko/browser/extensions/translations/moz.build', 'a') as f:
     print(' BUG_COMPONENT = ("Firefox", "Translations")', file=f)
     print('JAR_MANIFESTS += ["jar.mn"]', file=f)
     print('BROWSER_CHROME_MANIFESTS += [\"test/browser/browser.ini\"]', file=f)
-
+"""
 # build and run our test
 try:
     subprocess.check_output("./mach build", stderr=subprocess.STDOUT, shell=True, universal_newlines=True, cwd="gecko")
     subprocess.check_output("./mach test browser/extensions/translations/test/browser/browser_translation_test.js", stderr=subprocess.STDOUT, shell=True, universal_newlines=True, cwd="gecko")
+    #subprocess.check_output("./mach test browser/extensions/translations/test/browser/browser_translation_qe_test.js", stderr=subprocess.STDOUT, shell=True, universal_newlines=True, cwd="gecko")
 except CalledProcessError as cpe:
     print(cpe.output)
     sys.exit("Tests failed")
